@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+
+<div id="container">
+  <div id="dice">
+    <input type="button" onclick="client.publish('/rolls', {roll: '1d2'});" value="1d2" />
+    <input type="button" onclick="client.publish('/rolls', {roll: '1d4'});" value="1d4" />
+    <input type="button" onclick="client.publish('/rolls', {roll: '1d6'});" value="1d6" />
+    <input type="button" onclick="client.publish('/rolls', {roll: '1d8'});" value="1d8" />
+    <input type="button" onclick="client.publish('/rolls', {roll: '1d10'});" value="1d10" />
+    <input type="button" onclick="client.publish('/rolls', {roll: '1d12'});" value="1d12" />
+    <input type="button" onclick="client.publish('/rolls', {roll: '1d20'});" value="1d20" />
+    <input type="button" onclick="client.publish('/rolls', {roll: '1d100'});" value="1d100" />
+  </div>
+
+  <div id="diceRequests">
+
+    <input name="roll" id="roll" placeholder="Enter your roll, e.g., 2d10+4" />
+    <input type="button" onclick="client.publish('/rolls', {roll: $('input#roll').val()}); $('input#roll').val('');" value="roll me some dice" />
+
+  </div>
+
+  <div id="log"></div>
+
+</div>
+
+<script type="text/javascript" 
+        src="http://localhost:8000/faye.js">
+        </script>
+
+<script type="text/javascript">
+    var client = new Faye.Client('http://localhost:8000/faye');
+
+	var subscription = client.subscribe('/rolls', function(message) {
+	  
+    $('<div>'+message.clientID+' rolls ' + message.roll + ' and gets ' + message.result + '</div>').hide().prependTo('#log').slideDown();
+
+	});
+</script>
+</body>
+</html>
