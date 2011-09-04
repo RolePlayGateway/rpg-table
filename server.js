@@ -32,7 +32,7 @@ bayeux.addExtension(diceroller);
 var server = http.createServer(function(request, response) {
   fs.readFile('./index.html', function(err, content) {
 
-        if (error) {
+        if (err) {
             response.writeHead(500);
             response.end();
 
