@@ -1,4 +1,5 @@
 var http = require('http'),
+    fs   = require('fs'),
     faye = require('faye'),
     roll = require('roll');
 
@@ -29,10 +30,14 @@ bayeux.addExtension(diceroller);
 
 // Handle non-Bayeux requests
 var server = http.createServer(function(request, response) {
-  response.writeHead(200, {'Content-Type': 'text/plain'});
-  response.write('Hello, non-Bayeux request');
+  response.writeHead(200, {'Content-Type': 'text/html'});
+
+  fs.readFile('index.html', function(err, content) {
+    response.write(content);
+  });
+
   response.end();
 });
 
 bayeux.attach(server);
-server.listen(8000);
+server.listen(80);
