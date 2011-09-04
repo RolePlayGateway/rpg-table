@@ -30,13 +30,18 @@ bayeux.addExtension(diceroller);
 
 // Handle non-Bayeux requests
 var server = http.createServer(function(request, response) {
-  response.writeHead(200, {'Content-Type': 'text/html'});
+  fs.readFile('./index.html', function(err, content) {
 
-  fs.readFile('index.html', function(err, content) {
-    response.write(content);
+        if (error) {
+            response.writeHead(500);
+            response.end();
+
+        } else {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end(content, 'utf-8');
+        }
+
   });
-
-  response.end();
 });
 
 bayeux.attach(server);
