@@ -33,7 +33,7 @@
         </script>
 
 <script type="text/javascript">
-  var client = new Faye.Client('faye');
+  var client = new Faye.Client('http://dice.no.de/faye');
 
   var subscription = client.subscribe('/rolls', function(message) {
     $('<div>'+message.clientID+' rolls ' + message.roll + ' and gets ' + message.result + '</div>').hide().prependTo('#log').slideDown();
