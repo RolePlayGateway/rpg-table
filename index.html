@@ -8,7 +8,7 @@
 
     Table = function(id) {
 
-      this.client = new Faye.Client('http://localhost:3000/faye');
+      this.client = new Faye.Client('http://dice.no.de/faye');
       this.id = id;
 
       this.rolls = this.client.subscribe('/tables/'+ this.id + '/rolls', function(message) {
