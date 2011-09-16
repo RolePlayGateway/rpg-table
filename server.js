@@ -8,7 +8,7 @@ var bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
 var diceroller = {
 	incoming: function(message, callback) {
 
-		if (message.channel.substring(-6) == '/rolls')
+		if (message.channel !== '/tables/asdf/rolls')
 			return callback(message);
 
     console.log(message);
@@ -44,4 +44,4 @@ var server = http.createServer(function(request, response) {
 });
 
 bayeux.attach(server);
-server.listen(80);
+server.listen(3000);
