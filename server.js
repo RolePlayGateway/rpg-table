@@ -1,4 +1,5 @@
 var http = require('http'),
+    url  = require('url'),
     fs   = require('fs'),
     faye = require('faye'),
     roll = require('roll');
@@ -31,17 +32,34 @@ bayeux.addExtension(diceroller);
 
 // Handle non-Bayeux requests
 var server = http.createServer(function(request, response) {
-  fs.readFile('./index.html', function(err, content) {
 
-        if (err) {
-            response.writeHead(500);
-            response.end();
-        } else {
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end(content, 'utf-8');
-        }
+  var parts = url.parse(request.url);
 
-  });
+  switch(parts.pathname) {
+    case '/':
+      fs.readFile('./index.html', function(err, content) {
+            if (err) {
+                response.writeHead(500);
+                response.end();
+            } else {
+                response.writeHead(200, { 'Content-Type': 'text/html' });
+                response.end(content, 'utf-8');
+            }
+      });
+    break;
+    case '/app.xml':
+      fs.readFile('./app.xml', function(err, content) {
+            if (err) {
+                response.writeHead(500);
+                response.end();
+            } else {
+                response.writeHead(200, { 'Content-Type': 'text/html' });
+                response.end(content, 'utf-8');
+            }
+      });
+    break;
+  }
+
 });
 
 bayeux.attach(server);
