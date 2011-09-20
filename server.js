@@ -17,7 +17,7 @@ var diceroller = {
 
     message.data = {
       clientID: message.clientId,
-      username: message.username,
+      username: message.data.username,
       roll: message.data.roll,
       result: rollResult.result
     }
