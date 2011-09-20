@@ -11,17 +11,32 @@
       this.client = new Faye.Client('http://dice.no.de/faye');
       this.id = id;
 
+      this.players = this.client.subscribe('/tables/'+ this.id + '/players', function(message) {
+        $('<div>'+message.username+' has joined the table.</div>').hide().prependTo('#log').slideDown();
+      });
+
       this.rolls = this.client.subscribe('/tables/'+ this.id + '/rolls', function(message) {
-        $('<div>'+message.clientID+' rolls ' + message.roll + ' and gets ' + message.result + '</div>').hide().prependTo('#log').slideDown();
+        $('<div>'+message.username+' rolls ' + message.roll + ' and gets ' + message.result + '</div>').hide().prependTo('#log').slideDown();
       });
 
     };
 
     Table.prototype.roll = function(what) {
-      this.client.publish('/tables/'+this.id+'/rolls', {roll: what});
+      this.client.publish('/tables/'+this.id+'/rolls', {username: this.username, roll: what});
     };
 
-    var myTable = new Table('asdf');
+    Table.prototype.login = function() {
+      this.username = $('#username').val();
+
+      this.client.publish('/tables/'+this.id+'/players', {username: this.username});
+
+      $('#login').fadeOut(function() {
+        $('#container').fadeIn();
+
+      });
+    }
+
+    myTable = new Table;
 
   </script>
   <style type="text/css">
@@ -31,8 +46,11 @@
   </style>
 </head>
 <body>
-
-<div id="container">
+<div id="login">
+  <input id="username" placeholder="Enter your name" />
+  <input type="submit" onclick="myTable.login();" />
+</div>
+<div id="container" style="display:none;">
   <div id="dice">
     <input type="button" onclick="myTable.roll($(this).val());" value="1d2" />
     <input type="button" onclick="myTable.roll($(this).val());" value="1d4" />
