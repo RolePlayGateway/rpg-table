@@ -7,7 +7,7 @@
   <Content type="html">
     <![CDATA[
       <script src="//hangoutsapi.appspot.com/static/hangout.js"></script>
-      <iframe src="//dice.no.de/"></iframe>
+      <iframe height="500" width="100%" src="http://dice.no.de/"></iframe>
     ]]>
   </Content>
 </Module>
