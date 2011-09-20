@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Hangout Tabletop RPG">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+      <script src="//hangoutsapi.appspot.com/static/hangout.js"></script>
+      <iframe src="//dice.no.de/"></iframe>
+    ]]>
+  </Content>
+</Module>
